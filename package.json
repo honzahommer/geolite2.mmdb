@@ -1,6 +1,6 @@
 {
   "name": "geolite2.mmdb",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Maxmind's GeoLite2 Free Databases",
   "main": "dist/index.json",
   "directories": {
