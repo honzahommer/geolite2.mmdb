@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+const download = require('download');
+const fs = require('fs');
+const path = require('path');
+const pkg = require('../package');
+
+const DIST_DIR = path.join(__dirname, '../dist');
+const DB_EXTNAME = '.mmdb';
+
+function build() {
+  return Promise.all([ 'ASN', 'City', 'Country' ].map(db => {
+    const basename = `GeoLite2-${db}`;
+
+    return download(`https://geolite.maxmind.com/download/geoip/database/${basename}.tar.gz`, DIST_DIR, {
+      extract: true,
+      filter: file => file.path.endsWith(DB_EXTNAME),
+      strip: 1
+    }).then(() => {
+      return [ db, path.join(DIST_DIR, `${basename}${DB_EXTNAME}`) ];
+    })
+  })).then(files => {
+    const paths = files.reduce((acc, [ key, val ]) => {
+      key = key.toLowerCase();
+
+      acc.paths[key] = val;
+      acc[key] = val;
+
+      return acc;
+    }, { paths: { } });
+
+    fs.writeFileSync(path.join(__dirname, '../', pkg.main), JSON.stringify(paths), 'utf8');
+
+    return paths;
+  });
+}
+
+if (!module.parent) {
+  build();
+}
+
+module.exports = build;

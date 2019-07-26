@@ -1,0 +1,59 @@
+{
+  "name": "geolite2.mmdb",
+  "version": "0.0.0",
+  "description": "Maxmind's GeoLite2 Free Databases",
+  "main": "dist/index.json",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "bin/build",
+    "prepublish": "npm run build && npm run mocha",
+    "lint": "semistandard \"bin/**/*.js\" --fix",
+    "mocha": "mocha ./test/*.test.js",
+    "test": "npm run lint && nyc npm run mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/honzahommer/geolite2.mmdb.git"
+  },
+  "author": "Honza Hommer <honza@hommer.cz>",
+  "homepage": "https://github.com/honzahommer/geolite2.mmdb#README",
+  "engines": {
+    "node": ">= 8"
+  },
+  "dependencies": {
+    "download": "^7.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/honzahommer/geolite2.mmdb/issues"
+  },
+  "keywords": [
+    "maxmind",
+    "mmdb",
+    "geo",
+    "geoip",
+    "geoip2",
+    "geobase",
+    "geo lookup"
+  ],
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
+  "semistandard": {
+    "env": [
+      "mocha"
+    ]
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "husky": "^3.0.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "semistandard": "^13.0.1"
+  }
+}
